@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="community-web:war">
+    <output-path>$PROJECT_DIR$/aplace-community/community-web/target</output-path>
+    <root id="archive" name="community-web-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="community-web:war exploded" />
+    </root>
+  </artifact>
+</component>

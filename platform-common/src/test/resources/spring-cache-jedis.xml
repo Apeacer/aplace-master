@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xsi:schemaLocation="
+		http://www.springframework.org/schema/beans    
+        http://www.springframework.org/schema/beans/spring-beans.xsd    
+        http://www.springframework.org/schema/context    
+        http://www.springframework.org/schema/context/spring-context.xsd    
+        http://www.springframework.org/schema/mvc    
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        
+        
+        
+<!-- application中引入Jedis配置文件 -->
+    
+<!-- redis 配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${jedis.maxIdle}"/><!-- 最大闲置 -->
+		<property name="minIdle" value="${jedis.minIdle}"/><!-- 最小闲置 -->
+		<property name="maxWaitMillis" value="${jedis.maxWaitMillis}" />
+		<property name="testOnBorrow" value="${jedis.testOnBorrow}"/><!-- 可以获取 -->
+		<!--<property name="testOnReturn" value="true"/>-->
+    </bean>
+    
+<!-- redis pool配置 -->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg ref="jedisPoolConfig" />    
+        <constructor-arg value="127.0.0.1" />    
+        <constructor-arg type="int" value="6379" />
+        <constructor-arg type="int" value="5000" />
+        <constructor-arg value="123" /> 
+		<!-- <constructor-arg index="0" ref="jedisPoolConfig" />
+	    <constructor-arg index="1" value="localhost" name="host" type="java.lang.String"/>
+	    <constructor-arg index="2" value="6379" name="port" type="int"/>
+	    <constructor-arg index="3" value="5000" name="timeout" type="int"/>
+	    <constructor-arg index="4" value="123" name="password" type="java.lang.String"/> --><!-- 不需要密码的话删掉这行 -->
+	</bean>
+	
+<!-- 用于对jedis进行操作，相当于dao -->
+	<bean id="jedisUtil" class ="com.aplace.core.util.JedisUtil">
+		<property name="jedisPool" ref="jedisPool"/>
+	</bean>	
+        
+        
+</beans>

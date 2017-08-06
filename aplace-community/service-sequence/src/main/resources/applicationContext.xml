@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <!-- 自动扫描带有注解的地方(@Service) -->
+    <context:component-scan base-package="com.aplace.service.sequence" />
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="service-sequence" />
+    <!-- 使用multicast广播注册中心暴露服务地址 -->
+    <!--<dubbo:registry address="multicast://224.5.6.7:1234" /> -->
+
+    <bean id="property" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:setting.properties</value>
+        </property>
+
+    </bean>
+
+
+    <!-- 使用zookeeper注册中心暴露服务地址 -即zookeeper的所在服务器ip地址和端口号 -->
+    <dubbo:registry address="${zookeeper.url}" />
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${dubbo.bind.port}" />
+
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.aplace.community.core.service.IdSequenceService" ref="idSequenceService" />
+    <!-- 具体的实现bean -->
+    <bean id="idSequenceService" class="com.aplace.service.sequence.impl.IdSequenceServiceImpl" />
+
+</beans>

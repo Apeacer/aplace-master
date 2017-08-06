@@ -1,0 +1,9 @@
+主要格式是：应用、配置文件、配置文件路径不指定的在classpath。
+
+配置文件名称						文件名					   被引入文件					引入路径
+
+spring核心配置文件：			applicationcontext.xml			web.xml					classpath*
+springmvc配置文件：			spring-mvc.xml					web.xml					classpath*
+springmybatis配置文件：		spring-mybatis.xml				web.xml					classpath*
+mysql数据源配置文件：			jdbc_conf.properties			spring-mybatis.xml		classpath*
+log4j配置文件：				log4j.properties				web.xml					/logs/aplace(tomcate服务器路径)

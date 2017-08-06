@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+           
+           
+           
+    <!-- 自动扫描带有注解的地方(@Service) -->  
+    <context:component-scan base-package="com.aplace" />
+    <!-- spring 对 aop的支持，aspectj -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 资源文件绑定器,用于国际化 -->           
+	<!--<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">-->
+		<!--<property name="basename" value="resource" />-->
+		<!--<property name="useCodeAsDefaultMessage" value="true" />-->
+	<!--</bean>-->
+	
+<!--     引入jdbc、jedis配置文件  
+	<bean id="propertyConfigurer"  
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations" >
+        	<list>
+        		<value>classpath*:jdbc_conf.properties</value>
+        		<value>classpath*:jedis_conf.properties</value>        	
+        	</list>
+        </property>  
+    </bean>
+    
+     -->
+
+
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="community-web" />
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
+	<!-- 生成远程服务代理，可以像使用本地bean一样使用远程服务 -->
+	<dubbo:reference id="idSequenceService" interface="com.aplace.community.core.service.IdSequenceService" />
+    
+
+
+
+
+
+
+
+
+
+</beans>

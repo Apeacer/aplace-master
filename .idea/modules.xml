@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/aplace-community/aplace-community.iml" filepath="$PROJECT_DIR$/aplace-community/aplace-community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/aplace-master.iml" filepath="$PROJECT_DIR$/.idea/aplace-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aplace-community/community-core/community-core.iml" filepath="$PROJECT_DIR$/aplace-community/community-core/community-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aplace-community/community-web/community-web.iml" filepath="$PROJECT_DIR$/aplace-community/community-web/community-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-common/platform-common.iml" filepath="$PROJECT_DIR$/platform-common/platform-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aplace-community/service-sequence/service-sequence.iml" filepath="$PROJECT_DIR$/aplace-community/service-sequence/service-sequence.iml" />
+    </modules>
+  </component>
+</project>

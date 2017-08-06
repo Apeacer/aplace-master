@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="aplace-community-user:war">
+    <output-path>$PROJECT_DIR$/aplace-community-user/target</output-path>
+    <root id="archive" name="aplace-community-user.war">
+      <element id="artifact" artifact-name="aplace-community-user:war exploded" />
+    </root>
+  </artifact>
+</component>
