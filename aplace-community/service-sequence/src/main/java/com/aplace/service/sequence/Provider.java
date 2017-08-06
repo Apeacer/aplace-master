@@ -1,4 +1,4 @@
-package com.tcredit.test.provider;
+package com.aplace.service.sequence;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

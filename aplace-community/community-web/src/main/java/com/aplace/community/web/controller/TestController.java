@@ -19,6 +19,11 @@ public class TestController {
     @Autowired
     private IdSequenceService idSequenceService;
 
+    @RequestMapping(value = "index", method = RequestMethod.GET)
+    public String toIndex(){
+        return "index";
+    }
+
     @ResponseBody
     @RequestMapping(value = "gettest", method = RequestMethod.GET)
     public String testResponse() {
