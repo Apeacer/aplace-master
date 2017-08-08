@@ -8,10 +8,9 @@ package com.aplace.community.core.service;
 public interface IdSequenceService {
 
     /**
-     * 获得一个时间相关的序列号
+     * 实现获取时间相关的全局唯一序列号
      *
-     * @param machineId 序列号首，区别哪台机器的序列号
-     * @return 结果
+     * @return 返回全局唯一的id，如果机器调整了时间应重新获取
      */
-    String nextIdSequence(String machineId);
+    long nextIdSequence();
 }

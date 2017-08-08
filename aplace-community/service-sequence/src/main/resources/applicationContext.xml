@@ -13,9 +13,9 @@
     <!-- 使用multicast广播注册中心暴露服务地址 -->
     <!--<dubbo:registry address="multicast://224.5.6.7:1234" /> -->
 
-    <bean id="property" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean id="settings" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
-            <value>classpath:setting.properties</value>
+            <value>classpath*:settings.properties</value>
         </property>
 
     </bean>
