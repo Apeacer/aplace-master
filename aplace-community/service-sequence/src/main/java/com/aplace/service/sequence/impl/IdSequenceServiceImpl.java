@@ -1,6 +1,7 @@
 package com.aplace.service.sequence.impl;
 
 import com.aplace.community.core.service.IdSequenceService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class IdSequenceServiceImpl implements IdSequenceService {
     /**
      * 配置属性
      */
-    @Resource(name = "settings")
+    @Resource(name = "configurer")
     Properties settings;
 
     /** 开始时间截 (2015-01-01) */
@@ -28,37 +29,40 @@ public class IdSequenceServiceImpl implements IdSequenceService {
     /**
      * 机器码位数
      */
-    private long machineBit = Long.parseLong(settings.getProperty("machineBit"));
+    @Value("${machineBit}")
+    private long machineBit = 10L;
     /**
      * 机器码最大值
      */
-    private long machineMax = -1L ^ (-1L << machineBit);
+    private long machineMax;// = -1L ^ (-1L << machineBit);
 
     /**
      * 毫秒内自增位位数
      */
-    private long sequenceBit = Long.parseLong(settings.getProperty("sequenceBit"));
+    @Value("${sequenceBit}")
+    private long sequenceBit = 12L;
     /**
      * 毫秒内自增位最大值
      */
-    private long sequenceMax = -1 ^ (-1 << machineBit);
+    private long sequenceMax;// = -1 ^ (-1 << machineBit);
 
     /**
      * 机器码左移位数
      */
-    private long sequenceShift = 0;
+    private long sequenceShift ;//= 0L;
     /**
      * 机器码左移位数
      */
-    private long machineShift = sequenceShift + sequenceBit;
+    private long machineShift ;//= sequenceShift + sequenceBit;
     /**
      * 时间戳左移位数
      */
-    private long timestampShift = machineShift + machineBit;
+    private long timestampShift ;//= machineShift + machineBit;
 
     /**
      * 机器码
      */
+    @Value("${machineCode}")
     private long machineCode;
     /**
      * 上次生产id的时间戳
@@ -69,17 +73,38 @@ public class IdSequenceServiceImpl implements IdSequenceService {
      */
     private long sequence = 0L;
 
+    private boolean isInitialization = false;
+
     /**
      * 构造方法，初始化机器码
      */
     public IdSequenceServiceImpl() {
-        // 得到机器码
-        machineCode = Long.parseLong(settings.getProperty("machineCode"));
+
+//
+//        // 得到机器码
+//        machineCode = Long.parseLong(settings.getProperty("machineCode"));
         // 机器码在范围外
+//        if (machineCode < 0L || machineCode > machineMax) {
+//            throw new IllegalArgumentException("machineCode < 0 or machineCode out of bound");
+//        }
+
+    }
+
+    /**
+     * 通过配置文件初始化变量
+     */
+    private void init(){
         if (machineCode < 0L || machineCode > machineMax) {
             throw new IllegalArgumentException("machineCode < 0 or machineCode out of bound");
         }
-
+//        machineBit = Long.parseLong(settings.getProperty("machineBit"));
+        machineMax = -1L ^ (-1L << machineBit);
+//        sequenceBit = Long.parseLong(settings.getProperty("sequenceBit"));
+        sequenceMax = -1 ^ (-1 << machineBit);
+        sequenceShift = 0L;
+        machineShift = sequenceShift + sequenceBit;
+        timestampShift = machineShift + machineBit;
+        setInitialization(true);
     }
 
     /**
@@ -88,6 +113,10 @@ public class IdSequenceServiceImpl implements IdSequenceService {
      * @return 返回全局唯一的id，如果机器调整了时间应重新获取
      */
     public synchronized long nextIdSequence() {
+        if(!isInitialization()) {
+            init();
+        }
+
         long timestamp = getCurrentMillis();
         // 机器调整时间了
         if (timestamp < lastTimestamp) {
@@ -135,6 +164,14 @@ public class IdSequenceServiceImpl implements IdSequenceService {
             timestamp = getCurrentMillis();
         }
         return timestamp;
+    }
+
+    private boolean isInitialization() {
+        return isInitialization;
+    }
+
+    private void setInitialization(boolean isInitialization) {
+        this.isInitialization = isInitialization;
     }
 
 

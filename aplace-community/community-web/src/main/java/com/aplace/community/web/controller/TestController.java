@@ -27,7 +27,7 @@ public class TestController {
     @ResponseBody
     @RequestMapping(value = "gettest", method = RequestMethod.GET)
     public String testResponse() {
-        return String.format("This is test, your input is : %s",idSequenceService.nextIdSequence("hehe"));
+        return String.format("This is test, your input is : %s",idSequenceService.nextIdSequence());
     }
 
     @ResponseBody
