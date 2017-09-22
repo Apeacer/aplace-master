@@ -1,7 +1,6 @@
 package com.aplace.core.net;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
 
 import java.io.*;
 import java.net.HttpURLConnection;

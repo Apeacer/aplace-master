@@ -1,5 +1,7 @@
 package com.aplace.core.net;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +30,21 @@ public class HttpResponse {
 
     public HttpResponse setHeader(Map<String, String> header) {
         this.header = header;
+        return this;
+    }
+
+    public HttpResponse setHeaderOrgin(Map<String, List<String>> headerOrgin) {
+        for (Map.Entry<String,List<String>> entry : headerOrgin.entrySet()) {
+            if (null != entry.getValue() && entry.getValue().size() == 1) {
+                if (null == this.header)
+                    this.header = new HashMap<String,String>();
+                this.header.put(entry.getKey(),entry.getValue().get(0));
+            } else {
+                if (null == this.header)
+                    this.header = new HashMap<String,String>();
+                this.header.put(entry.getKey(),entry.getValue().toString());
+            }
+        }
         return this;
     }
 
