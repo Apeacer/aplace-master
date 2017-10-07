@@ -12,9 +12,9 @@ import java.io.*;
 public class SerializeUtil {
 
     /**
-     * logger 对象
+     * LOGGER 对象
      */
-    private static Logger logger = Logger.getLogger(SerializeUtil.class);
+    private static Logger LOGGER = Logger.getLogger(SerializeUtil.class);
 
 	/**
 	 * 序列化，将对像转为二进制
@@ -37,7 +37,7 @@ public class SerializeUtil {
             return bos.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info(String.format("Serialize error, object: %s",value));
+            LOGGER.info(String.format("Serialize error, object: %s",value));
             return new byte[0];
         } finally {
             close(os);
@@ -70,18 +70,19 @@ public class SerializeUtil {
             if (in != null) {
                 bis = new ByteArrayInputStream(in);
                 is = new ObjectInputStream(bis);
+
                 Object result = is.readObject();
                 if(requiredType.isInstance(result)) {
                     return (T) result;
                 } else {
-                    logger.info("Deserialize error, wrong type");
+                    LOGGER.info("Deserialize error, wrong type");
                     return null;
                 }
             }
             return null;// in == null
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info(String.format("Deserialize error, object: %s",in.toString()));
+            LOGGER.error(String.format("Deserialize error, object: %s",in.toString()));
             return null;
         } finally {
             close(is);
@@ -100,14 +101,14 @@ public class SerializeUtil {
                 closeable.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("close stream error");
+                LOGGER.error("close stream error");
             }
     }
 
     // 单元测试
     public static void main(String [] args) {
 
-        String test = "测测测测试试";
+        String test = "测1测2测3测a试b试!*%{}。";
         System.out.println("before: "+test);
         byte[] serialize = SerializeUtil.serialize(test);
 
