@@ -13,7 +13,6 @@ public class Stack<T> {
 
     private Object[] values;
     private int top = -1;
-    private int capacity;
     private float growthFactor;
 
 
@@ -27,41 +26,57 @@ public class Stack<T> {
 
     public Stack(int capacity, float growthFactor) {
         values = new Object[capacity];
-        this.capacity = capacity;
         this.growthFactor = growthFactor;
     }
 
-    public void push(T value) {
-        if (isFull()) {
-            growth();
-        }
-        values[++top] = value;
-
-    }
-
+    /**
+     * "弹"，从栈弹出
+     * @return
+     */
     public T pop() {
         if (isEmpty()) {
             return null;
         }
 
-        return (T) values[top--];
+        return (T) values[top--]; // !!!
     }
 
+    /**
+     * 压栈
+     * @param value
+     */
+    public void push(T value) {
+        if (isFull()) {
+            growth();
+        }
+        values[++top] = value; // !!!
+
+    }
+
+    /**
+     * 对满栈进行扩容
+     */
+    private void growth() {
+        int newLength = (int) (values.length * (1 + growthFactor));
+        this.values = Arrays.copyOf(values, newLength);
+    }
+
+    /**
+     * 判断栈是否已满
+     * @return
+     */
     private boolean isFull() {
-        return top == (capacity - 1);
+        return top == (values.length - 1);
     }
 
+    /**
+     * 判断栈是否为空
+     * @return
+     */
     private boolean isEmpty() {
         return top < 0;
     }
 
-    private void growth() {
-        int newLength = (int) (capacity * (1 + growthFactor));
-        this.capacity = newLength;
-//        Object[] newValues = new Object[newLength];
-
-        this.values = Arrays.copyOf(values, newLength);
-    }
 
     @Override
     public String toString() {
@@ -79,7 +94,7 @@ public class Stack<T> {
     public static void main(String[] args) {
         Stack<Integer> stack = new Stack<Integer>();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 55; i++) {
             stack.push(i);
             System.out.println(stack);
 
