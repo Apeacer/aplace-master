@@ -11,22 +11,46 @@ import java.util.Random;
  */
 public class Sort {
 
+    /**
+     * 插入排序
+     *
+     * @param array
+     * @param <T>
+     */
     public static <T extends Comparable> void insertSort(T[] array) {
         checkNullArray(array);
 
-        for (int i = 1; i < array.length ; i++) {
+        for (int i = 1; i < array.length; i++) {
             T current = array[i]; // 要往前插入的数字
             int j = i - 1; // 第一个j
 
             while (j >= 0 && array[j].compareTo(current) > 0) { // !!! 每次比较current
-                array[j+1] = array[j];
+                array[j + 1] = array[j];
                 j--;
             }
-            array[j+1] = current; // !!! 比每次交换效率高多了
+            array[j + 1] = current; // !!! 比每次交换效率高多了
         }
     }
 
+    /**
+     * 选择排序
+     *
+     * @param array
+     * @param <T>
+     */
     public static <T extends Comparable> void selectSort(T[] array) {
+        checkNullArray(array);
+
+        for (int i = 0; i < array.length - 1; i++) { // !!! 边界
+            int currMin = i;
+            for (int j = currMin + 1; j < array.length; j++) { // !!! 与min对比
+                if (array[j].compareTo(array[currMin]) < 0) {
+                    currMin = j;
+                }
+            }
+            exchange(i, currMin, array);
+        }
+
 
     }
 
@@ -41,20 +65,24 @@ public class Sort {
      * @param <T>
      */
     private static <T extends Comparable> void checkNullArray(T[] arrays) {
-        if (arrays == null )
+        if (arrays == null)
             throw new NullPointerException();
     }
 
     /**
      * 交换数组里两个值
+     *
      * @param a
      * @param b
      * @param arrays
      * @param <T>
      */
-    private static <T extends Comparable> void exchange (int a, int b, T[] arrays){
+    private static <T extends Comparable> void exchange(int a, int b, T[] arrays) {
+        if (a == b) {
+            return;
+        }
         T tmp = arrays[a];
-        arrays[a] = arrays [b];
+        arrays[a] = arrays[b];
         arrays[b] = tmp;
     }
 
@@ -64,11 +92,12 @@ public class Sort {
         int length = 30;
         Integer[] integers = new Integer[length];
 
-        for (int i = 0; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             integers[i] = random.nextInt(100);
         }
 
-        Sort.insertSort(integers);
+//        Sort.insertSort(integers);
+        Sort.selectSort(integers);
     }
 
 
