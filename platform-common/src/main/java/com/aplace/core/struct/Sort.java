@@ -54,7 +54,50 @@ public class Sort {
 
     }
 
+    /**
+     * 快速排序
+     *
+     * @param array
+     * @param <T>
+     */
     public static <T extends Comparable> void quickSort(T[] array) {
+        checkNullArray(array);
+
+        Stack<Integer> stack = new Stack<Integer>(); // 栈保存一个范围
+        stack.push(0);
+        stack.push(array.length - 1);
+
+        while (!stack.isEmpty()) {
+            int high = stack.pop(); // !!!跟push反着
+            int low = stack.pop();
+            T key = array[low];
+
+            int indexLow = low;
+            int indexHigh = high;
+
+            while (indexLow < indexHigh) {
+                while (indexLow < indexHigh && array[indexHigh].compareTo(key) >= 0) { // !!! 边界 || 有等于否则死循环
+                    indexHigh --;
+                }
+                array[indexLow] = array[indexHigh];
+                while (indexLow < indexHigh && array[indexLow].compareTo(key) <= 0) {
+                    indexLow ++;
+                }
+                array[indexHigh] = array[indexLow];
+            }
+            array[indexLow] = key;
+//            System.out.println(Arrays.toString(array));
+            if (low < indexLow - 1) {
+                stack.push(low);
+                stack.push(indexLow - 1);
+            }
+            if (indexLow + 1 < high) {
+                stack.push(indexLow + 1);
+                stack.push(high);
+            }
+
+        }
+
 
     }
 
@@ -96,8 +139,11 @@ public class Sort {
             integers[i] = random.nextInt(100);
         }
 
+        System.out.println(Arrays.toString(integers));
+        System.out.println();
 //        Sort.insertSort(integers);
-        Sort.selectSort(integers);
+//        Sort.selectSort(integers);
+        Sort.quickSort(integers);
     }
 
 

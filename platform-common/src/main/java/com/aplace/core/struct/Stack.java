@@ -73,7 +73,7 @@ public class Stack<T> {
      * 判断栈是否为空
      * @return
      */
-    private boolean isEmpty() {
+    public boolean isEmpty() {
         return top < 0;
     }
 
